@@ -1,0 +1,35 @@
+Description: Create S3 Bucket and Security Group using existing VPC
+
+Parameters:
+  VpcId:
+    Type: String
+    Description: VPC ID where the Security Group will be created
+
+Resources:
+
+  Bucket:
+    Type: AWS::S3::Bucket
+
+  AppSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: App
+      GroupDescription: Enable access to App
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: App
+
+Outputs:
+  SecurityGroupId:
+    Description: ID of the App Security Group
+    Value: !Ref AppSecurityGroup
+
+  S3BucketName:
+    Description: Name of the created S3 Bucket
+    Value: !Ref Bucket

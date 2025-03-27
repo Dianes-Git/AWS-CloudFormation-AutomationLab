@@ -1,0 +1,127 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Task 3 - CloudFormation template to create VPC, EC2 with Apache, and S3
+
+Resources:
+
+  Task3VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: Task3VPC
+
+  Task3Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Task3VPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      Tags:
+        - Key: Name
+          Value: Task3Subnet
+
+  Task3InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: Task3IGW
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Task3VPC
+      InternetGatewayId: !Ref Task3InternetGateway
+
+  Task3RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Task3VPC
+      Tags:
+        - Key: Name
+          Value: Task3RouteTable
+
+  RouteToInternet:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref Task3RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref Task3InternetGateway
+
+  SubnetRouteAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref Task3Subnet
+      RouteTableId: !Ref Task3RouteTable
+
+  Task3SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH and HTTP access
+      VpcId: !Ref Task3VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: Task3SG
+
+  Task3Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-072e42fd77921edac  # Amazon Linux 2 AMI (update to match region)
+      SubnetId: !Ref Task3Subnet
+      SecurityGroupIds:
+        - !Ref Task3SecurityGroup
+      KeyName: !Ref KeyPairName  # Will define below as a parameter
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y httpd
+          systemctl start httpd
+          systemctl enable httpd
+          echo "<html><h1>Welcome to Diane's AWS Cloud Formation instance</h1></html>" > /var/www/html/index.html
+      Tags:
+        - Key: Name
+          Value: Task3EC2
+
+  Task3S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub task3-bucket-${AWS::AccountId}-${AWS::Region}
+      Tags:
+        - Key: Name
+          Value: Task3S3Bucket
+
+Parameters:
+
+  KeyPairName:
+    Type: String
+    Description: Name of an existing EC2 KeyPair for SSH access
+
+Outputs:
+
+  InstancePublicIP:
+    Description: Public IP of the EC2 instance
+    Value: !GetAtt Task3Instance.PublicIp
+
+  InstanceWebURL:
+    Description: Access the EC2 web server via this URL
+    Value: !Sub "http://${Task3Instance.PublicDnsName}"
+
+  S3BucketName:
+    Description: Name of the S3 bucket created
+    Value: !Ref Task3S3Bucket
