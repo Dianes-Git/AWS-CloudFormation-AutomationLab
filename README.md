@@ -75,20 +75,48 @@ aws cloudformation create-stack \
 aws s3 ls
 ```
 
-### **Step 4: Deploy Task 3 (EC2 Instance & Final Setup)**
+### Step 4: Modify task3.yaml Before Deployment
+
+Before deploying Task 3, make the following modifications:
+
+1. Update the Amazon Linux AMI ID
+
 Find the latest Amazon Linux AMI ID:
+
 ```bash
 aws ec2 describe-images --owners amazon --filters "Name=name,Values=amzn2-ami-hvm-*-x86_64-gp2" --query 'Images[*].[ImageId,CreationDate]' --output text | sort -k2 -r | head -n 1
 ```
 
-Deploy Task 3:
+Replace the existing ImageId in task3.yaml with the latest AMI ID:
+
+```bash
+ImageId: <LATEST_AMI_ID>  # Replace with the latest AMI ID for your region
+```
+
+2. Modify the Default Web Page Message
+
+Locate the UserData section in task3.yaml and update the HTML content:
+
+```bash
+UserData:
+  Fn::Base64: !Sub |
+    #!/bin/bash
+    echo "<html><h1>Welcome to Your AWS CloudFormation Instance</h1></html>" > /var/www/html/index.html
+    systemctl start httpd
+    systemctl enable httpd
+```
+Replace "Welcome to Your AWS Cloud Formation instance" with your preferred text.
+
+### **Step 5: Deploy Task 3 (EC2 Instance & Final Setup)**
+
 ```bash
 aws cloudformation create-stack \
   --stack-name task3-stack \
   --template-body file://templates/task3.yaml \
-  --parameters ParameterKey=KeyPairName,ParameterValue=Cloud-Form-Key \
+  --parameters ParameterKey=KeyPairName,ParameterValue=<YOUR-KEY-PAIR-NAME> \
   --capabilities CAPABILITY_NAMED_IAM
 ```
+💡 Replace <YOUR-KEY-PAIR-NAME> with your actual AWS key pair name.
 
 ✅ **Verify:**
 ```bash
@@ -161,4 +189,13 @@ This project demonstrates:
 ---
 
 🚀 **By following this guide, you can deploy and manage AWS infrastructure efficiently using CloudFormation!**
+
+---
+👩‍💻 Author
+
+Diane Ihezue
+
+DevOps & Cloud Engineer 
+
+✨ Feel free to fork this repo, deploy the stack, and experiment on your own!
 

@@ -81,7 +81,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-072e42fd77921edac  # Amazon Linux 2 AMI (update to match region)
+      ImageId:  <LATEST_AMI_ID>  # Amazon Linux 2 AMI (update to match region)
       SubnetId: !Ref Task3Subnet
       SecurityGroupIds:
         - !Ref Task3SecurityGroup
@@ -93,7 +93,7 @@ Resources:
           yum install -y httpd
           systemctl start httpd
           systemctl enable httpd
-          echo "<html><h1>Welcome to Diane's AWS Cloud Formation instance</h1></html>" > /var/www/html/index.html
+          echo "<html><h1>Welcome to Your AWS Cloud Formation instance</h1></html>" > /var/www/html/index.html
       Tags:
         - Key: Name
           Value: Task3EC2
