@@ -48,6 +48,15 @@ Ensure you have AWS CLI installed and configured.
 ```bash
 aws configure
 ```
+This command prompts for AWS credentials:
+
+AWS Access Key ID
+
+AWS Secret Access Key
+
+Default region name (e.g., us-east-1)
+
+Default output format (e.g., json)
 
 ### **Step 2: Deploy Task 1 (VPC & Security Group)**
 ```bash
