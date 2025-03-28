@@ -167,24 +167,32 @@ An error occurred (ValidationError): Stack with id task3-stack does not exist
 ## 📸 Screenshots for Documentation
 ### 1. **Project Structure**
 **Label:** "Project Folder Structure"
+<img width="1280" alt="Project Folder Structure" src="https://github.com/user-attachments/assets/bbf3a18b-8f92-411b-8958-03c9a3c8ab35" />
 
 ### 2. **Stack Creation Output**
 **Label:** "CloudFormation Stack Creation Output"
+<img width="1280" alt="CloudFormation Stack Creation" src="https://github.com/user-attachments/assets/60a69084-e2f8-4ba3-8c58-285eefdee15d" />
 
 ### 3. **CloudFormation Outputs**
 **Label:** "CloudFormation Stack Outputs"
+<img width="1280" alt="CloudFormation Stack Outputs" src="https://github.com/user-attachments/assets/da77ca47-ba1b-4c0e-87eb-71a51cf11beb" />
 
 ### 4. **EC2 Instance Running**
 **Label:** "EC2 Instance Deployed via CloudFormation"
+<img width="1274" alt="EC2 Instance Provisioned by CloudFormation" src="https://github.com/user-attachments/assets/1ffe82f3-9e6b-498e-9213-1f1a11c625d2" />
 
 ### 5. **S3 Bucket Listing**
 **Label:** "S3 Bucket Created via CloudFormation"
+<img width="1273" alt="S3 Bucket Created via CloudFormation Template" src="https://github.com/user-attachments/assets/a40b1aba-5ae8-40b0-837b-4c61efe3df03" />
 
 ### 6. **curl Test Output**
 **Label:** "Web Server Response from EC2 Instance"
+<img width="1280" alt="Screenshot 2025-03-27 at 22 44 13" src="https://github.com/user-attachments/assets/2a2b7ba5-58e3-478f-81f7-99ac3b0f088e" />
+<img width="1260" alt="Successful Web Server Response from EC2 Instance" src="https://github.com/user-attachments/assets/290bc44c-8057-48f1-9b95-2aaef1811efd" />
 
 ### 7. **Stack Deletion Confirmation**
 **Label:** "AWS CLI Output After Stack Deletion"
+<img width="1280" alt="Stack Deletion via AWS CLI" src="https://github.com/user-attachments/assets/4da3d407-6710-4242-9c26-9404cc854ed6" />
 
 ---
 
