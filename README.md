@@ -182,7 +182,8 @@ An error occurred (ValidationError): Stack with id task3-stack does not exist
 
 ### 6. **curl Test Output**
 <img width="1280" alt="Screenshot 2025-03-27 at 22 44 13" src="https://github.com/user-attachments/assets/2a2b7ba5-58e3-478f-81f7-99ac3b0f088e" />
-**Web Server Response from EC2 Instance on Browser**
+
+### Web Server Response from EC2 Instance on Browser
 <img width="1260" alt="Successful Web Server Response from EC2 Instance" src="https://github.com/user-attachments/assets/290bc44c-8057-48f1-9b95-2aaef1811efd" />
 
 ### 7. **Stack Deletion Confirmation**
